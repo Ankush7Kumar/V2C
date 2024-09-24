@@ -1,41 +1,46 @@
 version: '3.8'
 
 services:
+  # Django Backend Service
   web:
     build:
-      context: .
+      context: ./app  # The directory containing your Dockerfile and Django app
       dockerfile: Dockerfile
-    command: python manage.py runserver 0.0.0.0:8000
-    volumes:
-      - .:/app
-      - ./db.sqlite3:/app/db.sqlite3
     ports:
-      - "8000:8000"
-    depends_on:
-      - node
+      - "8000:8000"  # Maps the container port to the host port
+    volumes:
+      - ./app:/app  # Mounts the application code inside the container for live reloading
     environment:
       - DEBUG=True
+      - DJANGO_SETTINGS_MODULE=v2interview.settings  # Use your settings module
+    depends_on:
+      - db  # Ensures the database service is up before starting Django
+    command: python manage.py runserver 0.0.0.0:8000  # Start Django server
 
+  # Database Service (PostgreSQL)
+  db:
+    image: postgres:13  # PostgreSQL version
+    environment:
+      - POSTGRES_DB=mydatabase  # Change as needed
+      - POSTGRES_USER=myuser  # Change as needed
+      - POSTGRES_PASSWORD=mypassword  # Change as needed
+    volumes:
+      - postgres_data:/var/lib/postgresql/data  # Persist database data
+
+  # Node.js Service (for Frontend if needed)
   node:
     build:
-      context: .
-      dockerfile: Dockerfile
-    command: npm run dev
-    volumes:
-      - .:/app
+      context: ./app  # Path to the frontend directory
+      dockerfile: Dockerfile  # Assumes frontend Dockerfile is the same
     ports:
-      - "3000:3000"
-
-  nginx:
-    image: nginx:alpine
+      - "3000:3000"  # Maps the frontend port to host
     volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-    ports:
-      - "80:80"
+      - ./app:/app  # Mounts the app directory for live reloading
+    command: npm run dev  # Start the frontend development server
     depends_on:
-      - web
-      - node
+      - web  # Waits for Django server to be up
 
+# Volumes for persisting database data
 volumes:
-  db_data:
+  postgres_data:
 
