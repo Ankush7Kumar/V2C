@@ -13,19 +13,7 @@ services:
     environment:
       - DEBUG=True
       - DJANGO_SETTINGS_MODULE=v2interview.settings  # Use your settings module
-    depends_on:
-      - db  # Ensures the database service is up before starting Django
     command: python manage.py runserver 0.0.0.0:8000  # Start Django server
-
-  # Database Service (PostgreSQL)
-  db:
-    image: postgres:13  # PostgreSQL version
-    environment:
-      - POSTGRES_DB=mydatabase  # Change as needed
-      - POSTGRES_USER=myuser  # Change as needed
-      - POSTGRES_PASSWORD=mypassword  # Change as needed
-    volumes:
-      - postgres_data:/var/lib/postgresql/data  # Persist database data
 
   # Node.js Service (for Frontend if needed)
   node:
@@ -39,8 +27,3 @@ services:
     command: npm run dev  # Start the frontend development server
     depends_on:
       - web  # Waits for Django server to be up
-
-# Volumes for persisting database data
-volumes:
-  postgres_data:
-
