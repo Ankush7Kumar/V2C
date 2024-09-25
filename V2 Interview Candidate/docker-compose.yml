@@ -1,29 +1,16 @@
 version: '3.8'
 
 services:
-  # Django Backend Service
   web:
     build:
       context: ./app  # The directory containing your Dockerfile and Django app
       dockerfile: Dockerfile
     ports:
-      - "8000:8000"  # Maps the container port to the host port
+      - "8000:8000"  # Maps the container port to the host port for Django
+      - "3000:3000"  # Maps the container port to the host port for Webpack (if needed)
     volumes:
       - ./app:/app  # Mounts the application code inside the container for live reloading
     environment:
       - DEBUG=True
       - DJANGO_SETTINGS_MODULE=v2interview.settings  # Use your settings module
-    command: python manage.py runserver 0.0.0.0:8000  # Start Django server
-
-  # Node.js Service (for Frontend if needed)
-  node:
-    build:
-      context: ./app  # Path to the frontend directory
-      dockerfile: Dockerfile  # Assumes frontend Dockerfile is the same
-    ports:
-      - "3000:3000"  # Maps the frontend port to host
-    volumes:
-      - ./app:/app  # Mounts the app directory for live reloading
-    command: npm run dev  # Start the frontend development server
-    depends_on:
-      - web  # Waits for Django server to be up
+    command: ./entrypoint.sh  # Use entrypoint.sh to run both processes
