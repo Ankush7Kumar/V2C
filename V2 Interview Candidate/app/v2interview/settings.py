@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',  # Missing comma here
     'rest_framework',  # Ensure this is a separate line
     'cloud',  # Your app should be listed here
+    'frontend',
 ]
 
 
@@ -58,7 +59,7 @@ ROOT_URLCONF = 'v2interview.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'frontend', 'templates'),],
+        'DIRS': [os.path.join(BASE_DIR, 'frontend/templates'),],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -136,6 +137,8 @@ STATIC_URL = '/static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-#STATICFILES_DIRS = (
-#    os.path.join(BASE_DIR, 'static'),
-#)
+# STATICFILES_DIRS = (
+#     os.path.join(BASE_DIR, 'static'),
+# )
+
+STATICFILES_DIRS = [BASE_DIR / 'frontend/static']  # Adjust path as necessary
