@@ -2,17 +2,7 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom/client'; // Import from 'react-dom/client'
-
 import VmList from '../react/components/VmList'
-// Create a React functional component
-const IndexPage = () => {
-    return (
-        <div>
-            <h1>Index Page</h1>
-            <p>This jasajsis dynamically rendered content using React!</p>
-        </div>
-    );
-};
 
 // Find the root DOM node where the component will be rendered
 const rootElement = document.getElementById('react-component');
