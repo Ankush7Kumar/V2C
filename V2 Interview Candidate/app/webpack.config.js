@@ -5,6 +5,7 @@ module.exports = {
   output: { 
     filename: "bundle.js",
     path: path.resolve(__dirname, 'frontend/static/bundle')  // Adjust to match your desired output directory
+
   },
   module: {
     rules: [

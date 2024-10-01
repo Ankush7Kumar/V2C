@@ -78,5 +78,4 @@ const VmList = () => {
     </Container>
   );
 };
-
 export default VmList;

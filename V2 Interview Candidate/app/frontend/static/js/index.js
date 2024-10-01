@@ -11,4 +11,3 @@ const rootElement = document.getElementById('react-component');
 if (rootElement) {
     const root = ReactDOM.createRoot(rootElement);
     root.render(<VmList />);
-}
